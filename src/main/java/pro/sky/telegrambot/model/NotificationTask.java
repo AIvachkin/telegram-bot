@@ -2,6 +2,7 @@ package pro.sky.telegrambot.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -10,15 +11,14 @@ import java.util.Objects;
 public class NotificationTask {
 
     @Id
-    @GeneratedValue
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    private long chatId;
+    private Long chatId;
     private String response;
     private LocalDateTime dateAndTime;
 
-    public NotificationTask(long id, long chatId, String response, LocalDateTime dateAndTime) {
-        this.id = id;
+    public NotificationTask(Long chatId, String response, LocalDateTime dateAndTime) {
         this.chatId = chatId;
         this.response = response;
         this.dateAndTime = dateAndTime;
@@ -33,7 +33,7 @@ public class NotificationTask {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NotificationTask that = (NotificationTask) o;
-        return id == that.id && chatId == that.chatId && Objects.equals(response, that.response) && Objects.equals(dateAndTime, that.dateAndTime);
+        return Objects.equals(id, that.id) && Objects.equals(chatId, that.chatId) && Objects.equals(response, that.response) && Objects.equals(dateAndTime, that.dateAndTime);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class NotificationTask {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -71,5 +71,15 @@ public class NotificationTask {
 
     public void setDateAndTime(LocalDateTime dateAndTime) {
         this.dateAndTime = dateAndTime;
+    }
+
+    @Override
+    public String toString() {
+        return "NotificationTask{" +
+                "id=" + id +
+                ", chatId=" + chatId +
+                ", response='" + response + '\'' +
+                ", dateAndTime=" + dateAndTime +
+                '}';
     }
 }
