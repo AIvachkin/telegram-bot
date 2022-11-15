@@ -28,19 +28,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Override
     public int process(List<Update> updates) {
-//        updates.forEach(update -> {
-//            logger.info("Processing update: {}", update);
-//            if (update.message().text().equals("/start")) {
-//                SendMessage message = new SendMessage(update.message().chat().id(), "Привет! Начинаем работу!");
-//                SendResponse response = telegramBot.execute(message);
-//                if (response.isOk()) {
-//                    System.out.println("Сообщение пользователю было доставлено!");
-//                } else {
-//                    System.out.println("Сообщение пользователю не было доставлено. Код ошибки: " + response.errorCode());
-//                }
-//            }
-//        });
-//        return UpdatesListener.CONFIRMED_UPDATES_ALL;
         return notificationTaskService.processTheMessage(updates);
     }
 

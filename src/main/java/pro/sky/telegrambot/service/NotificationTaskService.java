@@ -6,6 +6,7 @@ import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.listener.TelegramBotUpdatesListener;
 import pro.sky.telegrambot.model.NotificationTask;
@@ -40,7 +41,7 @@ public class NotificationTaskService {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
             Long chatId = update.message().chat().id();
-            String userText =update.message().text();
+            String userText = update.message().text();
 
             Matcher matcher = pattern.matcher(userText);
 
@@ -64,8 +65,24 @@ public class NotificationTaskService {
 //                System.out.println(notificationTask);
                 notificationTaskRepository.save(notificationTask);
             }
+            
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
 
+    }
+    @Scheduled(cron = "0 0/1 * * * *")
+//    public List<NotificationTask> searchRecordsByCurrentMinute() {
+    public void searchRecordsByCurrentMinute() {
+//        logger.info("Создан запрос в БД на поиск событий");
+//        System.out.println(notificationTaskRepository.findByDateAndTime());
+        List<NotificationTask> searchRecords = notificationTaskRepository.findByDateAndTime();
+        if(!searchRecords.isEmpty()){
+            for (NotificationTask task: searchRecords)
+            {
+                SendMessage message = new SendMessage(task.getChatId(),
+                        "Задача: " + task.getResponse() + "; Время исполнения: " + task.getDateAndTime().toString());
+                SendResponse response = telegramBot.execute(message);
+            }
+        }
     }
 }
