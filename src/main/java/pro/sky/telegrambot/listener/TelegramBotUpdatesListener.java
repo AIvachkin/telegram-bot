@@ -3,9 +3,6 @@ package pro.sky.telegrambot.listener;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.service.NotificationTaskService;
 
@@ -15,16 +12,14 @@ import java.util.List;
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
-    private final Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
-
     private final NotificationTaskService notificationTaskService;
 
-    public TelegramBotUpdatesListener(NotificationTaskService notificationTaskService) {
-        this.notificationTaskService = notificationTaskService;
-    }
+    private final TelegramBot telegramBot;
 
-    @Autowired
-    private TelegramBot telegramBot;
+    public TelegramBotUpdatesListener(NotificationTaskService notificationTaskService, TelegramBot telegramBot) {
+        this.notificationTaskService = notificationTaskService;
+        this.telegramBot = telegramBot;
+    }
 
     @PostConstruct
     public void init() {
