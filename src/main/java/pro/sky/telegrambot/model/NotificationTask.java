@@ -12,7 +12,7 @@ public class NotificationTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id = 1L;
+    private Long id;
 
     private Long chatId;
     private String response;
@@ -41,7 +41,7 @@ public class NotificationTask {
         return Objects.hash(id, chatId, response, dateAndTime);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

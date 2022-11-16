@@ -76,13 +76,14 @@ public class NotificationTaskService {
 //        logger.info("Создан запрос в БД на поиск событий");
 //        System.out.println(notificationTaskRepository.findByDateAndTime());
         List<NotificationTask> searchRecords = notificationTaskRepository.findByDateAndTime();
-        if(!searchRecords.isEmpty()){
+//        if(!searchRecords.isEmpty()){
             for (NotificationTask task: searchRecords)
             {
                 SendMessage message = new SendMessage(task.getChatId(),
                         "Задача: " + task.getResponse() + "; Время исполнения: " + task.getDateAndTime().toString());
-                SendResponse response = telegramBot.execute(message);
+//                SendResponse response = telegramBot.execute(message);
+                telegramBot.execute(message);
             }
-        }
+//        }
     }
 }
